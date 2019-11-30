@@ -1,7 +1,7 @@
 import requests
 import json
 
-class Clean:
+class API:
 
     def __init__(self):
         self.accessKey = None
@@ -13,8 +13,8 @@ class Clean:
         self.accessKey = accessKey
         self.secretKey = secretKey
 
-    def data(self, data, cleanClasses, columnNames=None, apply=None, analyze=None, dataFormat=None):
-        data = {'data': data, 'cleanClasses': cleanClasses}
+    def data(self, data, columnNames=None, apply=None, analyze=None, dataFormat=None):
+        data = {'data': data}
 
         request_body = self.add_to_request_body(data, columnNames, apply, analyze, dataFormat)
 

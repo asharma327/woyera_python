@@ -1,0 +1,8 @@
+README.md
+setup.py
+woyera/__init__.py
+woyera/api.py
+woyera_asharma327.egg-info/PKG-INFO
+woyera_asharma327.egg-info/SOURCES.txt
+woyera_asharma327.egg-info/dependency_links.txt
+woyera_asharma327.egg-info/top_level.txt
