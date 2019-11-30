@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="woyera",
-    version="4.0.0",
+    version="4.0.1",
     author="Woyera Team",
     author_email="admin@woyera.com",
     description="Library for Woyera Data Cleaning API",

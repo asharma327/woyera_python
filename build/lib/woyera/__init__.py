@@ -3,45 +3,28 @@ name = "woyera"
 import requests
 import json
 
-class API:
+class WoyeraAPI:
 
-    def __init__(self, accessKey, secretKey):
-        self.accessKey = accessKey
-        self.secretKey = secretKey
-        self.url = "https://www.dataprojectmanager.com/api/"
-        self.result_url = "https://www.dataprojectmanager.com/api/get-results/"
-        self.results = None
-        self.job_id = None
+    def __init__(self, api_key, clean_type):
+        self.api_key = api_key
+        self.url = "https://api-woyera.com/clean/"
+        self.clean_type = clean_type
 
-    def run_defect_process(self, data, columnNames=None, defectFunctions=None):
-        data_dict = {'data': data}
+    def clean(self, data):
+        full_url = self.url + self.clean_type + "/"
+        request_body = {"apiKey": self.api_key, "data": data}
 
-        request_body = self.add_to_request_body(data_dict, columnNames, defectFunctions)
-
-        r = requests.post(self.url, json=json.loads(json.dumps(request_body)),
-                          headers={'accessKey': self.accessKey, 'secretKey': self.secretKey})
+        r = requests.post(full_url, json=json.loads(json.dumps(request_body)))
 
         status_code = r.status_code
         json_response = r.json()
 
         if status_code == 200:
-            self.job_id = json_response['jobID']
+            results = json_response['cleanData']
+        else:
+            if 'error' in json_response:
+                results = json_response['error']
+            else:
+                results = json_response
 
-        return r
-
-    def get_results(self, job_id):
-        r = requests.post(self.result_url, json=json.loads(json.dumps({'jobID': job_id})),
-                          headers={'accessKey': self.accessKey, 'secretKey': self.secretKey})
-
-
-        return r
-
-
-    def add_to_request_body(self, data, columnNames, defectFunctions):
-        if columnNames is not None:
-            data['columnNames'] = columnNames
-
-        if defectFunctions is not None:
-            data['defectFunctions'] = defectFunctions
-
-        return data
+        return {"status_code": status_code, 'results': results}
